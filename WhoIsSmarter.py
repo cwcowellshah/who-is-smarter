@@ -1,14 +1,17 @@
 # Figure out how many letters (on average) there are per word
 
-# take all the text
-brown_1_file = open('brown_1.txt')
-brown_1_text = brown_1_file.read()
-brown_1_file.close()
+# read all the text from a file
+fake_speech_file = open('fake_speech_file.txt')
+fake_speech_text = fake_speech_file.read()
+fake_speech_file.close()
 
 # replace carriage returns with spaces
 brown_1_text = brown_1_text.replace('\n', ' ')
 
-# chop the text into words, one line at a time
+# replace punctuation with empty strings
+
+
+# chop the text into words, by cutting it every time there's a space
 words_in_speech = brown_1_text.split()
 
 # count how many characters are in the words
