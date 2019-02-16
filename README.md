@@ -14,4 +14,4 @@
 * Average letters per word
 * Average words per sentence
 * Number of different words
-* Number of words not in the top 1000 English words
+* Percent of words not in the top 1000 English words
