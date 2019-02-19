@@ -13,5 +13,5 @@
 # Things to measure
 * Average letters per word
 * Average words per sentence
-* Number of different words
+* Percent of different words
 * Percent of words not in the top 1000 English words

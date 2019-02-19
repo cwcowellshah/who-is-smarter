@@ -1,3 +1,6 @@
+from nltk.stem import LancasterStemmer
+
+
 def calculate_mean_letters_per_word(text_file_name):
     # read the text from a file
     text_file = open(text_file_name)
@@ -46,12 +49,20 @@ def calculate_uncommon_words_percent(text_file_name):
 
     # replace punctuation with empty strings
     punctuation_marks = ['.', ',', ':', ';', '(', ')', '!', '?', '[', ']',
-                         '$', '"', "'", '-', '●' '\t', '“', '”']
+                         '$', '"', "'", '’', '-', '–', '●', '\t', '“', '”', '\n',
+                         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     for punctuation_mark in punctuation_marks:
-        text = text.replace(punctuation_mark, '')
+        text = text.replace(punctuation_mark, ' ')
 
     # chop the text into words, using spaces as word dividers
     words_in_text = text.split()
+
+    stemmer = LancasterStemmer()
+    stems_in_text = []
+    for word in words_in_text:
+        stem = stemmer.stem(word)
+        lower_case_stem = stem.lower()
+        stems_in_text.append(lower_case_stem)
 
     # read the 1000 most common English words from a file
     common_words_file = open('most_common_words.txt')
@@ -60,23 +71,27 @@ def calculate_uncommon_words_percent(text_file_name):
 
     common_words = common_words_text.split()
 
-    for each_word in words_in_text:
-        print(each_word + ': ' + str((each_word in common_words)))
+    common_stems = []
+    for word in common_words:
+        stem = stemmer.stem(word)
+        lower_case_stem = stem.lower()
+        common_stems.append(lower_case_stem)
+
+    uncommon_stems = []
+    for stem in stems_in_text:
+        if not (stem in common_stems):
+            uncommon_stems.append(stem)
+
+    pct_uncommon_stems = len(uncommon_stems) / len(stems_in_text)
+    rounded_pct_uncommon_stems = round(pct_uncommon_stems, 3)
+    return rounded_pct_uncommon_stems
 
 
-print('Mean letters per word')
-print('Fake:', calculate_mean_letters_per_word('Fake.txt'))
-print('Brown:', calculate_mean_letters_per_word('Brown.txt'))
-print('Ishiguro:', calculate_mean_letters_per_word('Ishiguro.txt'))
-print('Clinton:', calculate_mean_letters_per_word('Clinton.txt'))
-print('Trump:', calculate_mean_letters_per_word('Trump.txt'))
 
-print('----')
-print('Length of text')
-print('Fake:', calculate_num_words('Fake.txt'))
-print('Brown:', calculate_num_words('Brown.txt'))
-print('Ishiguro:', calculate_num_words('Ishiguro.txt'))
-print('Clinton:', calculate_num_words('Clinton.txt'))
-print('Trump:', calculate_num_words('Trump.txt'))
-
-calculate_uncommon_words_percent('Brown.txt')
+people = ['Brown', 'Clinton', 'Ishiguro', 'Trump', 'Fake']
+for person in people:
+    file_name = person + '.txt'
+    print(person)
+    print('\t' + str(calculate_mean_letters_per_word(file_name)) + ' mean letters per word')
+    print('\t' + str(calculate_num_words(file_name)) + ' words')
+    print('\t' + str(calculate_uncommon_words_percent(file_name) * 100) + ' percent uncommon words')
