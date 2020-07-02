@@ -86,11 +86,11 @@ def calculate_uncommon_words_percent(text_file_name):
     rounded_pct_uncommon_stems = round(pct_uncommon_stems, 3)
     return rounded_pct_uncommon_stems
 
-
+# --- MAIN CODE BELOW HERE ---
 
 people = ['Brown', 'Clinton', 'Ishiguro', 'Trump', 'Fake']
 for person in people:
-    file_name = person + '.txt'
+    file_name = f'Corpuses/{person}-speech.txt'
     print(person)
     print('\t' + str(calculate_mean_letters_per_word(file_name)) + ' mean letters per word')
     print('\t' + str(calculate_num_words(file_name)) + ' words')
